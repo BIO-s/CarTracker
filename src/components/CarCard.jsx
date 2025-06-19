@@ -1,5 +1,7 @@
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { deleteCar } from '../store/carsSlice';
 import Button from './Button';
 import ConfirmDialog from './ConfirmDialog';
 
@@ -7,6 +9,7 @@ function CarCard({ car, userId: propUserId }) {
 	const navigate = useNavigate();
 	const location = useLocation();
 	const { userId, carId } = useParams();
+	const dispatch = useDispatch();
 	const [isDialogOpen, setIsDialogOpen] = useState(false);
 
 	const isCarDetailsPage = location.pathname === `/cars/${car.id}`;
@@ -21,20 +24,20 @@ function CarCard({ car, userId: propUserId }) {
 	};
 
 	const handleEditClick = () => {
-	navigate(`/cars/${car.id}/edit`);
+		navigate(`/cars/${car.id}/edit`);
 	};
 
 	const handleDeleteClick = () => {
-	setIsDialogOpen(true);
+		setIsDialogOpen(true);
 	};
 
 	const handleConfirmDelete = () => {
-	setIsDialogOpen(false);
-	console.log('Car deleted:', car.id);
+		setIsDialogOpen(false);
+	dispatch(deleteCar(car.id));
 	};
 
 	const handleCancelDelete = () => {
-	setIsDialogOpen(false);
+		setIsDialogOpen(false);
 	};
 
 	return (
