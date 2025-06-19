@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 export const fetchUsers = createAsyncThunk('users/fetchUsers', async () => {
-	const response = await axios.get('https://jsonplaceholder.typicode.com/users');
+	const response = await axios.get('https://6198b49a164fa60017c23190.mockapi.io/api/users');
 	return response.data;
 });
 

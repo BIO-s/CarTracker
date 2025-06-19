@@ -1,18 +1,33 @@
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { fetchCars } from '../store/carsSlice';
 import CarCard from '../components/CarCard';
 
-function CarDetailsPage({ cars }) {
+function CarDetailsPage() {
 	const { id } = useParams();
-	const car = cars.find((c) => c.id === parseInt(id));
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
+	const { cars, status } = useSelector((state) => state.cars);
+
+	useEffect(() => {
+		if (status === 'idle') {
+			dispatch(fetchCars());
+		}
+	}, [status, dispatch]);
+
+	const car = cars.find((c) => String(c.id) === id);
+
+	if (status === 'loading') return <div>Loading...</div>;
 	if (!car) return <div>Car not found</div>;
 
 	return (
-	<div>
-		<Link to="/cars" className="button">Back</Link>
-		<h1>Car Details</h1>
-		<CarCard car={car} />
-	</div>
+		<div>
+			<button className="button" onClick={() => navigate('/cars')}>Back</button>
+			<h1>Car Details</h1>
+			<CarCard car={car} />
+		</div>
 	);
 }
 

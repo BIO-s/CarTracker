@@ -33,7 +33,7 @@ function CarCard({ car, userId: propUserId }) {
 
 	const handleConfirmDelete = () => {
 		setIsDialogOpen(false);
-	dispatch(deleteCar(car.id));
+		dispatch(deleteCar(car.id));
 	};
 
 	const handleCancelDelete = () => {
